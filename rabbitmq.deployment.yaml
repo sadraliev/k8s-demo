@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-deployment
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3.12.8
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 15672
+        env: 
+          - name: SEED_USERNAME
+            value: turtle
+          - name: SEED_USER_PASSWORD
+            value: turtle-ninja
+        volumeMounts:
+          - name: rabbitmq-broker
+            mountPath: /var/lib/rabbitmq
+      volumes:  
+        - name: rabbitmq-broker
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
