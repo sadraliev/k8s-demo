@@ -16,15 +16,21 @@ spec:
         image: rabbitmq:3.12.8
         resources:
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            memory: "128Mi"
+            cpu: "200m"
         ports:
         - containerPort: 15672
         env: 
           - name: SEED_USERNAME
-            value: turtle
+            valueFrom:
+              secretKeyRef:
+                key: SEED_USERNAME
+                name: rabbitmq-secret
           - name: SEED_USER_PASSWORD
-            value: turtle-ninja
+            valueFrom:
+              secretKeyRef:
+                key: SEED_USER_PASSWORD
+                name: rabbitmq-secret
         volumeMounts:
           - name: rabbitmq-broker
             mountPath: /var/lib/rabbitmq
