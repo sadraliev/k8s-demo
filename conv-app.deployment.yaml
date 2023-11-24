@@ -23,9 +23,7 @@ spec:
               memory: "128Mi"
           env:
             - name: VITE_DOMAIN
-              value: conv.test
-          
-      volumes:
-        - name: test
-          configMap:
-            name: conv-app-configmap
+              valueFrom:
+                configMapKeyRef:
+                  name: conv-app-configmap           # The ConfigMap this value comes from.
+                  key: domain_name
