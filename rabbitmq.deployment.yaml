@@ -22,12 +22,12 @@ spec:
         - containerPort: 5672
         - containerPort: 15672
         env: 
-          - name: SEED_USERNAME
+          - name: RABBITMQ_DEFAULT_USER
             valueFrom:
               secretKeyRef:
                 key: SEED_USERNAME
                 name: rabbitmq-secret
-          - name: SEED_USER_PASSWORD
+          - name: RABBITMQ_DEFAULT_PASS
             valueFrom:
               secretKeyRef:
                 key: SEED_USER_PASSWORD

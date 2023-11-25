@@ -25,5 +25,5 @@ spec:
             - name: VITE_DOMAIN
               valueFrom:
                 configMapKeyRef:
-                  name: conv-app-configmap           # The ConfigMap this value comes from.
+                  name: conv-app-configmap
                   key: domain_name
