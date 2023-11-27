@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: converter-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: converter
+  template:
+    metadata:
+      labels:
+        app: converter
+    spec:
+      containers:
+      - name: converter-container
+        image: antonlarichev/conv-service:1.0
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 3000
+        env: 
+          - name: AMQP_EXCHANGE
+            value: test
+          - name: AMQP_QUEUE
+            value: converter
+          - name: AMQP_USER
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secret
+                key: SEED_USERNAME
+          - name: AMQP_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secret
+                key: SEED_USER_PASSWORD
+          - name: AMQP_HOSTNAME
+            valueFrom:
+              secretKeyRef:
+                name: conv-api-secret
+                key: AMQP_HOST
